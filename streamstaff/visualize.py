@@ -7,7 +7,7 @@ from pylsl import StreamInlet
 ## Visualizers Module
 ###################################################
 
-def plotTimeDomain(stream_info, chunkwidth, fs=0, channels=0, timewin=50, tickfactor=5, size=(1500, 800), title=None):
+def plotTimeDomain(stream_info, chunkwidth=0, fs=0, channels=0, timewin=30, tickfactor=5, size=(1500, 800), title=None):
     """Plot Real-Time domain in the time domain using a scrolling plot.
 
     Accepts a pylsl StreamInlet Object and plots chunks in real-time as they are recieved
@@ -18,17 +18,13 @@ def plotTimeDomain(stream_info, chunkwidth, fs=0, channels=0, timewin=50, tickfa
         chunkwidth (int): The number of samples in each chunk when pulling chunks from the stream
         fs (int): The sampling frequency of the device. If zero function will attempt to determine 
             sampling frequency automatically
-        channels (int): The number of channels in the stream (Eg. Number of EEG Electrodes). If
-            zero the function will attempt determine automatically
+        channels (list): A list of integers which represent which channels to plot. If set to int zero all channels 
+            will be plotted
         timewin (int): The number seconds to show at any given time in the plot. This affects the speed 
             with which the plot will scroll accross the screen. Can not be a prime number.
         tickfactor (int): The number of seconds between x-axis labels. Must be a factor of timewin
         size (array): Array of type (width, height) of the figure
         title (string): Title of the plot figure
-    
-    Returns:
-        bool: True if window was closed and no errors were encountered. False if an error was encountered within
-            the function
     """
     #################################
     ## Stream Inlet Creation
@@ -45,18 +41,26 @@ def plotTimeDomain(stream_info, chunkwidth, fs=0, channels=0, timewin=50, tickfa
         print('''ERROR: The tickfactor should be a factor of of timewin. The default tickfactor
         \n is 5 seconds. If you changed the default timewin, make sure that 5 is a factor, or 
         \n change the tickfactor so that it is a factor of timewin''')
-        return False
+        return
 
     if(fs == 0):
         fs = stream_info.nominal_srate() # Get sampling rate
 
+    # Get list of channels to be plotted
     if(channels == 0):
-        channels = stream_info.channel_count() # Get number of channels
+        numchan = stream_info.channel_count() # number of available channels
+        channels = np.linspace(0, numchan-1, numchan)
+    else:
+        channels = [x-1 for x in channels] # Must shift channel numbers such that they represent indices
+    
+    for channel in channels:
+        if (channel < 0) or (channel > (stream_info.channel_count() - 1)):
+            print('''ERROR: Channel Number out of range''')
+            return
 
     ## Initialize Constants
     XWIN = timewin*fs # Width of X-Axis in samples
     XTICKS = (int)((timewin + 1)/tickfactor) # Number of labels to have on X-Axis
-    CHUNKPERIOD = chunkwidth*(1/fs) # The length of each chunk in seconds
 
     ##################################
     ## Figure and Plot Set Up
@@ -77,18 +81,18 @@ def plotTimeDomain(stream_info, chunkwidth, fs=0, channels=0, timewin=50, tickfa
     (x_vec, step) = np.linspace(0,timewin,XWIN+1, retstep=True) # vector used to plot y values
     xlabels = np.zeros(XTICKS).tolist() # Vector to hold labels of ticks on x-axis
     xticks = [ x * tickfactor for x in list(range(0, XTICKS))] # Initialize locations of x-labels
-    y_vec = np.zeros((channels,len(x_vec))) # Initialize y_values as zero
+    y_vec = np.zeros((np.size(channels),len(x_vec))) # Initialize y_values as zero
 
     # Set Up subplots and lines
     plots = []
     curves = []
     colors = ['c', 'm', 'g', 'r', 'y', 'b'] # Color options for various channels
-    for i in range(0, channels):
+    for i in range(0, np.size(channels)):
         # Create axis item and set tick locations and labels
         axis = pg.AxisItem(orientation='bottom')
         axis.setTicks([[(xticks[i],str(xlabels[i])) for i in range(len(xticks))]]) # Initialize all labels as zero
         # Create plot widget and append to list
-        plot = pg.PlotWidget(axisItems={'bottom': axis}, labels={'left': 'Volts (mV)'}, title='Channel ' + (str)(i + 1)) # Create Plot Widget
+        plot = pg.PlotWidget(axisItems={'bottom': axis}, labels={'left': 'Volts (mV)'}, title='Channel ' + (str)(channels[i] + 1)) # Create Plot Widget
         plot.plotItem.setMouseEnabled(x=False, y=False) # Disable panning for widget
         plot.plotItem.showGrid(x=True) # Enable vertical gridlines
         plots.append(plot)
@@ -109,9 +113,13 @@ def plotTimeDomain(stream_info, chunkwidth, fs=0, channels=0, timewin=50, tickfa
     while(True):
         chunk = inlet.pull_chunk()
 
-        if np.shape(chunk) == (2, chunkwidth): # Check for available chunk
-            chunkdata = np.transpose(chunk[0]) # Get chunk data and transpose to be CHANNELS x CHUNKLENTH
-            xticks = [x - CHUNKPERIOD for x in xticks] # Update location of x-labels
+        if (chunkwidth == 0):
+            chunkwidth = len()
+
+        if chunk: # Check for available chunk
+            chunkdata = np.transpose(chunk[0]) # Get chunk data and transpose to be CHANNELS x CHUNKLENGTH
+            chunkperiod = len(chunkdata[0])*(1/fs)
+            xticks = [x - chunkperiod for x in xticks] # Update location of x-labels
 
             # Update x-axis locations and labels
             if(xticks[0] < 0): # Check if a label has crossed to the negative side of the y-axis
@@ -128,8 +136,8 @@ def plotTimeDomain(stream_info, chunkwidth, fs=0, channels=0, timewin=50, tickfa
                     firstUpdate = False
             
             # Update plotted data
-            for i in range(0,channels):
-                y_vec[i] = np.append(y_vec[i], chunkdata[i], axis=0)[len(chunkdata[i]):] # Append chunk to the end of y_data (currently only doing 1 channel)
+            for i in range(0,np.size(channels)):
+                y_vec[i] = np.append(y_vec[i], chunkdata[int(channels[i])], axis=0)[len(chunkdata[int(channels[i])]):] # Append chunk to the end of y_data
                 curves[i].setData(x_vec, y_vec[i]) # Update data
 
                 # Update x-axis labels
@@ -146,5 +154,5 @@ def plotTimeDomain(stream_info, chunkwidth, fs=0, channels=0, timewin=50, tickfa
     # Close the stream inlet
     inlet.close_stream()
     
-    return True
+    return
 
