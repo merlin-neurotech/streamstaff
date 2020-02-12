@@ -4,7 +4,7 @@ from PyQt5 import QtGui
 from pylsl import StreamInlet
 
 ###################################################
-## Visualizers Module
+## Plotting Module
 ###################################################
 
 
@@ -43,8 +43,10 @@ def plotTimeDomain(stream_info, fs=0, channels=0, timewin=30, tickfactor=5, size
     # Start thread
     thread.run()
 
+
 ## Backend Functions ##
 ###################################################
+
 def plotTimeDomainBackend(stream_info, fs=0, channels=0, timewin=30, tickfactor=5, size=(1500, 800), title=None):
     """Plot Real-Time in the time domain using a scrolling plot.
 
