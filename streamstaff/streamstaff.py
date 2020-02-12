@@ -1,25 +1,28 @@
 import pylsl as pl 
 
 
-def getStream_info(device, max_chunk = 0, max_chunkln = 12, stream_type = 'EEG'):
+def get_stream_info(prop='type', value='EEG', index=0):
     """ Gets the stream info object from the Ble-2lsl Streamer object
 
-    resolves the streamer object using resolve_byprop and returns the stream info object from the resolved stream
+    resolves the streamer object using one of it's properties and returns the stream info object.
+    If more than 1 stream is resolved/found, the default is to return the first one
 
     Args:
-        device (Ble-lsl Streamer object): the Ble-lsl device made by the user
-        max_chunk (int): is the max chunk length for the given Streamer object 
-        max_chunkln (int): is the max length of the chunks that the stream pulls 
-        stream_type (string): is the type of data that is being streamed
+        prop (str): The property to use in order to find the stream. (eg. 'name', 'type', 'source_id' etc.)
+        value (str): Value of the property (eg. 'PSD' or 'EEG' for type)
+        index (int): If expecting more than one stream to be resolved, the index in the list of the one to choose
 
     Returns: 
-        info (info object): the stream info object from the given stream
+        stream_info (stream_info object): the stream info object from the resolved stream
     """
-    stream = pl.resolve_byprop('type', stream_type, timeout= 2)
+    # Resolve stream using a property of the stream
+    stream = pl.resolve_byprop(prop, value, timeout= 2)
     if len(stream) == 0:
-        raise RuntimeError("no {} stream found".format(stream_type))
-    print(type(stream))
-    return stream[0]
+        raise RuntimeError("no {} stream found".format(value))
+    if len(stream) < index+1:
+        raise RuntimeError('index set to ' + str(index) + ' however only ' + str(len(stream)) + ' streams found')
+    
+    return stream[index]
 
 
     #threading will also be in this python file 
