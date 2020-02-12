@@ -7,15 +7,52 @@ from pylsl import StreamInlet
 ## Visualizers Module
 ###################################################
 
-def plotTimeDomain(stream_info, chunkwidth=0, fs=0, channels=0, timewin=30, tickfactor=5, size=(1500, 800), title=None):
-    """Plot Real-Time domain in the time domain using a scrolling plot.
+
+## Wrapper Functions ##
+###################################################
+
+def plotTimeDomain(stream_info, fs=0, channels=0, timewin=30, tickfactor=5, size=(1500, 800), title=None):
+    '''Plot Real-Time in the time domain using a scrolling plot. Wrapper function for plotTimeDomainBackend.
+
+    Accepts a pylsl StreamInlet Object and used backend function to  plot chunks in real-time as they are recieved
+    using a scrolling pyqtgraph plot. Can plot multiple channels. Opens backend function in a thread.
+
+    Args:
+        stream_info (pylsl StreamInfo Object): The stream info object for the stream to be plotted
+        fs (int): The sampling frequency of the device. If zero function will attempt to determine 
+            sampling frequency automatically
+        channels (list): A list of integers which represent which channels to plot. If set to int zero all channels 
+            will be plotted
+        timewin (int): The number seconds to show at any given time in the plot. This affects the speed 
+            with which the plot will scroll accross the screen. Can not be a prime number.
+        tickfactor (int): The number of seconds between x-axis labels. Must be a factor of timewin
+        size (array): Array of type (width, height) of the figure
+        title (string): Title of the plot figure
+    '''
+
+    # Create thread to run plotTimeDomainBackend function without blocking main thread
+    thread = threading.Thread(target=plotTimeDomainBackend, 
+        kwargs={'stream_info':stream_info, 
+            'fs':fs,
+            'channels':channels,
+            'timewin':timewin,
+            'tickfactor':tickfactor,
+            'size':size,
+            'title':title})
+    
+    # Start thread
+    thread.run()
+
+## Backend Functions ##
+###################################################
+def plotTimeDomainBackend(stream_info, fs=0, channels=0, timewin=30, tickfactor=5, size=(1500, 800), title=None):
+    """Plot Real-Time in the time domain using a scrolling plot.
 
     Accepts a pylsl StreamInlet Object and plots chunks in real-time as they are recieved
     using a scrolling pyqtgraph plot. Can plot multiple channels.
 
     Args:
         stream_info (pylsl StreamInfo Object): The stream info object for the stream to be plotted
-        chunkwidth (int): The number of samples in each chunk when pulling chunks from the stream
         fs (int): The sampling frequency of the device. If zero function will attempt to determine 
             sampling frequency automatically
         channels (list): A list of integers which represent which channels to plot. If set to int zero all channels 
@@ -29,7 +66,7 @@ def plotTimeDomain(stream_info, chunkwidth=0, fs=0, channels=0, timewin=30, tick
     #################################
     ## Stream Inlet Creation
     #################################
-    inlet = StreamInlet(stream_info, max_chunklen=chunkwidth, recover=True)
+    inlet = StreamInlet(stream_info, recover=True)
     inlet.open_stream() # Stream is opened implicitely on first call of pull chunk, but opening now for clarity
 
     #################################
@@ -112,9 +149,6 @@ def plotTimeDomain(stream_info, chunkwidth=0, fs=0, channels=0, timewin=30, tick
     firstUpdate = True
     while(True):
         chunk = inlet.pull_chunk()
-
-        if (chunkwidth == 0):
-            chunkwidth = len()
 
         if chunk: # Check for available chunk
             chunkdata = np.transpose(chunk[0]) # Get chunk data and transpose to be CHANNELS x CHUNKLENGTH
