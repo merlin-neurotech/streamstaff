@@ -1,6 +1,5 @@
 import pylsl as pl 
 
-
 def get_stream_info(prop='type', value='EEG', index=0):
     """ Gets the stream info object from the Ble-2lsl Streamer object
 
