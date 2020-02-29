@@ -12,6 +12,7 @@ setup(name='streamstaff',
           'pylsl',
           'pyqtgraph',
           'pyqt5',
-          'numpy'
+          'numpy',
+          "scipy"
       ],
       zip_safe=False)
