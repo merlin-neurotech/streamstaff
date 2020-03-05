@@ -112,7 +112,7 @@ def plotTimeDomain(stream_info, fs=None, channels=None, timewin=30, tickfactor=5
     while(True):
         chunk = inlet.pull_chunk()
 
-        if chunk: # Check for available chunk
+        if chunk and np.shape(chunk)[1] > 0: # Check for available chunk
             chunkdata = np.transpose(chunk[0]) # Get chunk data and transpose to be CHANNELS x CHUNKLENGTH
             chunkperiod = len(chunkdata[0])*(1/fs)
             xticks = [x - chunkperiod for x in xticks] # Update location of x-labels
