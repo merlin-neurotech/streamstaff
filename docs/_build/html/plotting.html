@@ -1,0 +1,257 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Plotting &mdash; streamstaff 0.0.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Transforms" href="transforms.html" />
+    <link rel="prev" title="Core" href="core.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> streamstaff
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Modules</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="core.html">Core</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Plotting</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="transforms.html">Transforms</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">streamstaff</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Plotting</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/plotting.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-streamstaff.plotting">
+<span id="plotting"></span><h1>Plotting<a class="headerlink" href="#module-streamstaff.plotting" title="Permalink to this headline">¶</a></h1>
+<dl class="function">
+<dt id="streamstaff.plotting.plotFreqDomain">
+<code class="sig-prename descclassname">streamstaff.plotting.</code><code class="sig-name descname">plotFreqDomain</code><span class="sig-paren">(</span><em class="sig-param">stream_info</em>, <em class="sig-param">channels=None</em>, <em class="sig-param">size=(1500</em>, <em class="sig-param">1500)</em>, <em class="sig-param">title=None</em>, <em class="sig-param">measure='dB'</em><span class="sig-paren">)</span><a class="headerlink" href="#streamstaff.plotting.plotFreqDomain" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot Real-Time in the frequency domain using a static x-axis and changing y axis values.</p>
+<p>Accepts a pylsl StreamInlet Object and plots chunks in real-time as they are recieved
+using a pyqtgraph plot. Can plot multiple channels.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>stream_info</strong> (<em>pylsl StreamInfo Object</em>) – The stream info object for the stream to be plotted</p></li>
+<li><p><strong>channels</strong> – The number of channels in the signal. Default (None) plots all channels</p></li>
+<li><p><strong>fs</strong> (<em>int</em>) – The sampling frequency of the device. If default (None) function will attempt to determine
+sampling frequency automatically</p></li>
+<li><p><strong>size</strong> (<em>array</em>) – Array of type (width, height) of the figure</p></li>
+<li><p><strong>title</strong> (<em>string</em>) – Title of the plot figure</p></li>
+<li><p><strong>measure</strong> – the measurement unit to use when plotting. Can be one of the following,
+‘dB’ - Decibels
+‘W/Hz’ - Watts per Hz
+Default is decibels</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="streamstaff.plotting.plotTimeDomain">
+<code class="sig-prename descclassname">streamstaff.plotting.</code><code class="sig-name descname">plotTimeDomain</code><span class="sig-paren">(</span><em class="sig-param">stream_info</em>, <em class="sig-param">fs=None</em>, <em class="sig-param">channels=None</em>, <em class="sig-param">timewin=30</em>, <em class="sig-param">tickfactor=5</em>, <em class="sig-param">size=(1500</em>, <em class="sig-param">800)</em>, <em class="sig-param">title=None</em><span class="sig-paren">)</span><a class="headerlink" href="#streamstaff.plotting.plotTimeDomain" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot Real-Time in the time domain using a scrolling plot.</p>
+<p>Accepts a pylsl StreamInlet Object and plots chunks in real-time as they are recieved
+using a scrolling pyqtgraph plot. Can plot multiple channels.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>stream_info</strong> (<em>pylsl StreamInfo Object</em>) – The stream info object for the stream to be plotted</p></li>
+<li><p><strong>fs</strong> (<em>int</em>) – The sampling frequency of the device. If default (None), function will attempt to determine
+sampling frequency automatically</p></li>
+<li><p><strong>channels</strong> (<em>list</em>) – A list of integers which represent which channels to plot. Default (None),
+will plot all available channels</p></li>
+<li><p><strong>timewin</strong> (<em>int</em>) – The number seconds to show at any given time in the plot. This affects the speed
+with which the plot will scroll accross the screen. Can not be a prime number.</p></li>
+<li><p><strong>tickfactor</strong> (<em>int</em>) – The number of seconds between x-axis labels. Must be a factor of timewin</p></li>
+<li><p><strong>size</strong> (<em>array</em>) – Array of type (width, height) of the figure</p></li>
+<li><p><strong>title</strong> (<em>string</em>) – Title of the plot figure</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<div class="toctree-wrapper compound">
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="transforms.html" class="btn btn-neutral float-right" title="Transforms" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="core.html" class="btn btn-neutral float-left" title="Core" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, Merlin Neurotech
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

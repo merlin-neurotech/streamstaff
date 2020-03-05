@@ -1,0 +1,248 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Transforms &mdash; streamstaff 0.0.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Plotting" href="plotting.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> streamstaff
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Modules</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="core.html">Core</a></li>
+<li class="toctree-l1"><a class="reference internal" href="plotting.html">Plotting</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Transforms</a><ul class="simple">
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">streamstaff</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Transforms</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/transforms.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-streamstaff.transforms">
+<span id="transforms"></span><h1>Transforms<a class="headerlink" href="#module-streamstaff.transforms" title="Permalink to this headline">¶</a></h1>
+<dl class="function">
+<dt id="streamstaff.transforms.psd">
+<code class="sig-prename descclassname">streamstaff.transforms.</code><code class="sig-name descname">psd</code><span class="sig-paren">(</span><em class="sig-param">input_stream</em>, <em class="sig-param">output_stream_name='default'</em>, <em class="sig-param">method='periodogram'</em>, <em class="sig-param">window_length=256</em>, <em class="sig-param">window_type=&lt;function hamming&gt;</em>, <em class="sig-param">channels=None</em>, <em class="sig-param">nperseg=None</em>, <em class="sig-param">noverlap=None</em><span class="sig-paren">)</span><a class="headerlink" href="#streamstaff.transforms.psd" title="Permalink to this definition">¶</a></dt>
+<dd><p>Takes a time series stream as an input and outputs power spectral density (PSD) stream.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>input_stream</strong> (<em>pylsl StreamInfo Object</em>) – The stream which you want to convert into the frequency domain (PSD)</p></li>
+<li><p><strong>output_stream_name</strong> (<em>str</em>) – The desired name of the output stream. Default is the name of the input stream with ‘-PSD’ appended</p></li>
+<li><p><strong>method</strong> (<em>str</em>) – The method to use when calculating the PSD. Can be one of the following,
+‘periodogram’
+‘welch’
+Note that the welch method is better for signals with a high sampling rate</p></li>
+<li><p><strong>window_length</strong> (<em>int</em>) – The length of the window, in samples, to take when converting the signal to the frequency domain.
+This function uses an N-point FFT where N is window_length</p></li>
+<li><p><strong>window_type</strong> (<em>window function</em>) – The window type to use before applying the FFT. The default is a hamming window.
+Should be in the form of a window function where window_type(window_length) results in an array with window values.
+All the numpy window functions will work as an input for the parameter</p></li>
+<li><p><strong>channels</strong> (<em>list</em>) – A list of integers which represent which channels to convert. Default (None) will include
+all available channels in the PSD stream</p></li>
+<li><p><strong>nperseg</strong> (<em>int</em>) – Only used if the welch method is selected. The number of samples to use in each segment when converting stream to psd
+Should also be a power of 2. Default is the sampling frequency/8 such that there are 8 segments per window</p></li>
+<li><p><strong>noverlap</strong> – Only used if welch method is selected. The number of samples to overlap each segment</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A stream of type ‘PSD’ generated from the input stream</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>output_stream (pylsl StreamInfo Object)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="streamstaff.transforms.psd_backend">
+<code class="sig-prename descclassname">streamstaff.transforms.</code><code class="sig-name descname">psd_backend</code><span class="sig-paren">(</span><em class="sig-param">input_stream</em>, <em class="sig-param">output_stream</em>, <em class="sig-param">channels=None</em>, <em class="sig-param">method='periodogram'</em>, <em class="sig-param">window_length=256</em>, <em class="sig-param">window_type=&lt;function hamming&gt;</em>, <em class="sig-param">nperseg=None</em>, <em class="sig-param">noverlap=None</em><span class="sig-paren">)</span><a class="headerlink" href="#streamstaff.transforms.psd_backend" title="Permalink to this definition">¶</a></dt>
+<dd><p>The backend function for psd.</p>
+<p>This function takes in time domain chunks and converts them to psd chunks within an infinite loop. See documentation of
+psd function for argument descriptions</p>
+</dd></dl>
+
+<div class="toctree-wrapper compound">
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="plotting.html" class="btn btn-neutral float-left" title="Plotting" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, Merlin Neurotech
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

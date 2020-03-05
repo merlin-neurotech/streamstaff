@@ -1,20 +1,13 @@
 Welcome to streamstaff's documentation!
 =======================================
 
-.. automodule:: streamstaff.streamstaff
-   :members:
-
-.. automodule:: streamstaff.transforms
-   :members:
-
-.. automodule:: streamstaff.plotting
-   :members:
-
 .. toctree::
+   :caption: Modules
    :maxdepth: 2
-   :caption: Contents:
 
-
+   core
+   plotting
+   transforms
 
 Indices and tables
 ==================

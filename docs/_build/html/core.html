@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Python Module Index &mdash; streamstaff 0.0.1 documentation</title>
+  <title>Core &mdash; streamstaff 0.0.1 documentation</title>
   
 
   
@@ -35,9 +35,8 @@
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
- 
-
-
+    <link rel="next" title="&lt;no title&gt;" href="plotting.html" />
+    <link rel="prev" title="Welcome to streamstaff’s documentation!" href="index.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -81,11 +80,11 @@
               
             
             
-              <p class="caption"><span class="caption-text">Modules</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="core.html">Core</a></li>
-<li class="toctree-l1"><a class="reference internal" href="plotting.html">Plotting</a></li>
-<li class="toctree-l1"><a class="reference internal" href="transforms.html">Transforms</a></li>
+              <p class="caption"><span class="caption-text">Home</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Core</a><ul class="simple">
+</ul>
+</li>
 </ul>
 
             
@@ -131,10 +130,14 @@
     
       <li><a href="index.html">Docs</a> &raquo;</li>
         
-      <li>Python Module Index</li>
+      <li>Core</li>
     
     
       <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/core.rst.txt" rel="nofollow"> View page source</a>
+          
         
       </li>
     
@@ -146,45 +149,49 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
+  <div class="section" id="module-streamstaff.streamstaff">
+<span id="core"></span><h1>Core<a class="headerlink" href="#module-streamstaff.streamstaff" title="Permalink to this headline">¶</a></h1>
+<dl class="function">
+<dt id="streamstaff.streamstaff.get_stream_info">
+<code class="sig-prename descclassname">streamstaff.streamstaff.</code><code class="sig-name descname">get_stream_info</code><span class="sig-paren">(</span><em class="sig-param">prop='type'</em>, <em class="sig-param">value='EEG'</em>, <em class="sig-param">index=0</em><span class="sig-paren">)</span><a class="headerlink" href="#streamstaff.streamstaff.get_stream_info" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the stream info object from the Ble-2lsl Streamer object</p>
+<p>resolves the streamer object using one of it’s properties and returns the stream info object.
+If more than 1 stream is resolved/found, the default is to return the first one</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>prop</strong> (<em>str</em>) – The property to use in order to find the stream. (eg. ‘name’, ‘type’, ‘source_id’ etc.)</p></li>
+<li><p><strong>value</strong> (<em>str</em>) – Value of the property (eg. ‘PSD’ or ‘EEG’ for type)</p></li>
+<li><p><strong>index</strong> (<em>int</em>) – If expecting more than one stream to be resolved, the index in the list of the one to choose</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the stream info object from the resolved stream</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>stream_info (stream_info object)</p>
+</dd>
+</dl>
+</dd></dl>
 
-   <h1>Python Module Index</h1>
-
-   <div class="modindex-jumpbox">
-   <a href="#cap-s"><strong>s</strong></a>
-   </div>
-
-   <table class="indextable modindextable">
-     <tr class="pcap"><td></td><td>&#160;</td><td></td></tr>
-     <tr class="cap" id="cap-s"><td></td><td>
-       <strong>s</strong></td><td></td></tr>
-     <tr>
-       <td><img src="_static/minus.png" class="toggler"
-              id="toggle-1" style="display: none" alt="-" /></td>
-       <td>
-       <code class="xref">streamstaff</code></td><td>
-       <em></em></td></tr>
-     <tr class="cg-1">
-       <td></td>
-       <td>&#160;&#160;&#160;
-       <a href="plotting.html#module-streamstaff.plotting"><code class="xref">streamstaff.plotting</code></a></td><td>
-       <em></em></td></tr>
-     <tr class="cg-1">
-       <td></td>
-       <td>&#160;&#160;&#160;
-       <a href="core.html#module-streamstaff.streamstaff"><code class="xref">streamstaff.streamstaff</code></a></td><td>
-       <em></em></td></tr>
-     <tr class="cg-1">
-       <td></td>
-       <td>&#160;&#160;&#160;
-       <a href="transforms.html#module-streamstaff.transforms"><code class="xref">streamstaff.transforms</code></a></td><td>
-       <em></em></td></tr>
-   </table>
+<div class="toctree-wrapper compound">
+</div>
+</div>
 
 
            </div>
            
           </div>
           <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="plotting.html" class="btn btn-neutral float-right" title="&lt;no title&gt;" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="index.html" class="btn btn-neutral float-left" title="Welcome to streamstaff’s documentation!" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
   
 
   <hr/>
