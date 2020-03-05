@@ -1,0 +1,223 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>Welcome to streamstaff’s documentation! &#8212; streamstaff 0.0.1 documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="module-streamstaff.streamstaff">
+<span id="welcome-to-streamstaff-s-documentation"></span><h1>Welcome to streamstaff’s documentation!<a class="headerlink" href="#module-streamstaff.streamstaff" title="Permalink to this headline">¶</a></h1>
+<dl class="function">
+<dt id="streamstaff.streamstaff.get_stream_info">
+<code class="sig-prename descclassname">streamstaff.streamstaff.</code><code class="sig-name descname">get_stream_info</code><span class="sig-paren">(</span><em class="sig-param">prop='type'</em>, <em class="sig-param">value='EEG'</em>, <em class="sig-param">index=0</em><span class="sig-paren">)</span><a class="headerlink" href="#streamstaff.streamstaff.get_stream_info" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the stream info object from the Ble-2lsl Streamer object</p>
+<p>resolves the streamer object using one of it’s properties and returns the stream info object.
+If more than 1 stream is resolved/found, the default is to return the first one</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>prop</strong> (<em>str</em>) – The property to use in order to find the stream. (eg. ‘name’, ‘type’, ‘source_id’ etc.)</p></li>
+<li><p><strong>value</strong> (<em>str</em>) – Value of the property (eg. ‘PSD’ or ‘EEG’ for type)</p></li>
+<li><p><strong>index</strong> (<em>int</em>) – If expecting more than one stream to be resolved, the index in the list of the one to choose</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the stream info object from the resolved stream</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>stream_info (stream_info object)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<span class="target" id="module-streamstaff.transforms"></span><dl class="function">
+<dt id="streamstaff.transforms.psd">
+<code class="sig-prename descclassname">streamstaff.transforms.</code><code class="sig-name descname">psd</code><span class="sig-paren">(</span><em class="sig-param">input_stream</em>, <em class="sig-param">output_stream_name='default'</em>, <em class="sig-param">method='periodogram'</em>, <em class="sig-param">window_length=256</em>, <em class="sig-param">window_type=&lt;function hamming&gt;</em>, <em class="sig-param">channels=None</em>, <em class="sig-param">nperseg=None</em>, <em class="sig-param">noverlap=None</em><span class="sig-paren">)</span><a class="headerlink" href="#streamstaff.transforms.psd" title="Permalink to this definition">¶</a></dt>
+<dd><p>Takes a time series stream as an input and outputs power spectral density (PSD) stream.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>input_stream</strong> (<em>pylsl StreamInfo Object</em>) – The stream which you want to convert into the frequency domain (PSD)</p></li>
+<li><p><strong>output_stream_name</strong> (<em>str</em>) – The desired name of the output stream. Default is the name of the input stream with ‘-PSD’ appended</p></li>
+<li><p><strong>method</strong> (<em>str</em>) – The method to use when calculating the PSD. Can be one of the following,
+‘periodogram’
+‘welch’
+Note that the welch method is better for signals with a high sampling rate</p></li>
+<li><p><strong>window_length</strong> (<em>int</em>) – The length of the window, in samples, to take when converting the signal to the frequency domain.
+This function uses an N-point FFT where N is window_length</p></li>
+<li><p><strong>window_type</strong> (<em>window function</em>) – The window type to use before applying the FFT. The default is a hamming window.
+Should be in the form of a window function where window_type(window_length) results in an array with window values.
+All the numpy window functions will work as an input for the parameter</p></li>
+<li><p><strong>channels</strong> (<em>list</em>) – A list of integers which represent which channels to convert. Default (None) will include
+all available channels in the PSD stream</p></li>
+<li><p><strong>nperseg</strong> (<em>int</em>) – Only used if the welch method is selected. The number of samples to use in each segment when converting stream to psd
+Should also be a power of 2. Default is the sampling frequency/8 such that there are 8 segments per window</p></li>
+<li><p><strong>noverlap</strong> – Only used if welch method is selected. The number of samples to overlap each segment</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A stream of type ‘PSD’ generated from the input stream</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>output_stream (pylsl StreamInfo Object)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="streamstaff.transforms.psd_backend">
+<code class="sig-prename descclassname">streamstaff.transforms.</code><code class="sig-name descname">psd_backend</code><span class="sig-paren">(</span><em class="sig-param">input_stream</em>, <em class="sig-param">output_stream</em>, <em class="sig-param">channels=None</em>, <em class="sig-param">method='periodogram'</em>, <em class="sig-param">window_length=256</em>, <em class="sig-param">window_type=&lt;function hamming&gt;</em>, <em class="sig-param">nperseg=None</em>, <em class="sig-param">noverlap=None</em><span class="sig-paren">)</span><a class="headerlink" href="#streamstaff.transforms.psd_backend" title="Permalink to this definition">¶</a></dt>
+<dd><p>The backend function for psd.</p>
+<p>This function takes in time domain chunks and converts them to psd chunks within an infinite loop. See documentation of
+psd function for argument descriptions</p>
+</dd></dl>
+
+<span class="target" id="module-streamstaff.plotting"></span><dl class="function">
+<dt id="streamstaff.plotting.plotFreqDomain">
+<code class="sig-prename descclassname">streamstaff.plotting.</code><code class="sig-name descname">plotFreqDomain</code><span class="sig-paren">(</span><em class="sig-param">stream_info</em>, <em class="sig-param">channels=None</em>, <em class="sig-param">size=(1500</em>, <em class="sig-param">1500)</em>, <em class="sig-param">title=None</em>, <em class="sig-param">measure='dB'</em><span class="sig-paren">)</span><a class="headerlink" href="#streamstaff.plotting.plotFreqDomain" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot Real-Time in the frequency domain using a static x-axis and changing y axis values.</p>
+<p>Accepts a pylsl StreamInlet Object and plots chunks in real-time as they are recieved
+using a pyqtgraph plot. Can plot multiple channels.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>stream_info</strong> (<em>pylsl StreamInfo Object</em>) – The stream info object for the stream to be plotted</p></li>
+<li><p><strong>channels</strong> – The number of channels in the signal. Default (None) plots all channels</p></li>
+<li><p><strong>fs</strong> (<em>int</em>) – The sampling frequency of the device. If default (None) function will attempt to determine
+sampling frequency automatically</p></li>
+<li><p><strong>size</strong> (<em>array</em>) – Array of type (width, height) of the figure</p></li>
+<li><p><strong>title</strong> (<em>string</em>) – Title of the plot figure</p></li>
+<li><p><strong>measure</strong> – the measurement unit to use when plotting. Can be one of the following,
+‘dB’ - Decibels
+‘W/Hz’ - Watts per Hz
+Default is decibels</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="streamstaff.plotting.plotTimeDomain">
+<code class="sig-prename descclassname">streamstaff.plotting.</code><code class="sig-name descname">plotTimeDomain</code><span class="sig-paren">(</span><em class="sig-param">stream_info</em>, <em class="sig-param">fs=None</em>, <em class="sig-param">channels=None</em>, <em class="sig-param">timewin=30</em>, <em class="sig-param">tickfactor=5</em>, <em class="sig-param">size=(1500</em>, <em class="sig-param">800)</em>, <em class="sig-param">title=None</em><span class="sig-paren">)</span><a class="headerlink" href="#streamstaff.plotting.plotTimeDomain" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot Real-Time in the time domain using a scrolling plot.</p>
+<p>Accepts a pylsl StreamInlet Object and plots chunks in real-time as they are recieved
+using a scrolling pyqtgraph plot. Can plot multiple channels.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>stream_info</strong> (<em>pylsl StreamInfo Object</em>) – The stream info object for the stream to be plotted</p></li>
+<li><p><strong>fs</strong> (<em>int</em>) – The sampling frequency of the device. If default (None), function will attempt to determine
+sampling frequency automatically</p></li>
+<li><p><strong>channels</strong> (<em>list</em>) – A list of integers which represent which channels to plot. Default (None),
+will plot all available channels</p></li>
+<li><p><strong>timewin</strong> (<em>int</em>) – The number seconds to show at any given time in the plot. This affects the speed
+with which the plot will scroll accross the screen. Can not be a prime number.</p></li>
+<li><p><strong>tickfactor</strong> (<em>int</em>) – The number of seconds between x-axis labels. Must be a factor of timewin</p></li>
+<li><p><strong>size</strong> (<em>array</em>) – Array of type (width, height) of the figure</p></li>
+<li><p><strong>title</strong> (<em>string</em>) – Title of the plot figure</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<div class="toctree-wrapper compound">
+</div>
+</div>
+<div class="section" id="indices-and-tables">
+<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><p><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></p></li>
+<li><p><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></p></li>
+<li><p><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></p></li>
+</ul>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="#">streamstaff</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="#">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2020, Merlin Neurotech.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.4.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/index.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
