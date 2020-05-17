@@ -1,10 +1,11 @@
 import os
 
+from PyQt5 import QtGui
+
 import numpy as np
 import pandas as pd
 import pyqtgraph as pg
 from pylsl import StreamInlet
-from PyQt5 import QtGui
 
 ###################################################
 # Plotting Module
@@ -165,7 +166,9 @@ def plotTimeDomain(
     while True:
         chunk = inlet.pull_chunk()
 
-        if chunk:  # Check for available chunk
+        # if chunk:  # Check for available chunk
+        if not (np.size(chunk[0]) == 0):
+            print(len(chunk[0]))
             chunkdata = np.transpose(
                 chunk[0]
             )  # Get chunk data and transpose to be CHANNELS x CHUNKLENGTH
@@ -173,7 +176,7 @@ def plotTimeDomain(
             xticks = [x - chunkperiod for x in xticks]  # Update location of x-labels
 
             if save:
-                to_append = pd.Series(chunk[0][0], index=df.columns)
+                to_append = pd.DataFrame(data=chunk[0])
                 df = df.append(to_append, ignore_index=True)
 
             # Update x-axis locations and labels
