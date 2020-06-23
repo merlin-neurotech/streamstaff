@@ -1,6 +1,7 @@
-import pylsl as pl 
+import pylsl as pl
 
-def get_stream_info(prop='type', value='EEG', index=0):
+
+def get_stream_info(prop="type", value="EEG", index=0):
     """ Gets the stream info object from the Ble-2lsl Streamer object
 
     resolves the streamer object using one of it's properties and returns the stream info object.
@@ -15,14 +16,18 @@ def get_stream_info(prop='type', value='EEG', index=0):
         stream_info (stream_info object): the stream info object from the resolved stream
     """
     # Resolve stream using a property of the stream
-    stream = pl.resolve_byprop(prop, value, timeout= 2)
+    stream = pl.resolve_byprop(prop, value, timeout=2)
     if len(stream) == 0:
         raise RuntimeError("no {} stream found".format(value))
-    if len(stream) < index+1:
-        raise RuntimeError('index set to ' + str(index) + ' however only ' + str(len(stream)) + ' streams found')
-    
+    if len(stream) < index + 1:
+        raise RuntimeError(
+            "index set to "
+            + str(index)
+            + " however only "
+            + str(len(stream))
+            + " streams found"
+        )
+
     return stream[index]
 
-
-    #threading will also be in this python file 
-
+    # threading will also be in this python file
